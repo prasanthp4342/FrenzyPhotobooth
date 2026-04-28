@@ -1,0 +1,36 @@
+.top-banner {
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.top-banner__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.top-banner__item {
+  color: var(--color-white);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.2s ease;
+}
+
+.top-banner__item:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .top-banner {
+    font-size: 0.75rem;
+  }
+  .top-banner__inner {
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,44 @@
+:root {
+  /* Primary */
+  --color-primary: #6c3ce0;
+  --color-primary-dark: #5a2dc5;
+
+  /* Secondary */
+  --color-secondary: #f5f0ff;
+  --color-secondary-dark: #e8dff5;
+
+  /* Accent */
+  --color-accent: #ff6b9d;
+  --color-accent-dark: #e8527f;
+
+  /* Neutrals */
+  --color-white: #ffffff;
+  --color-black: #1a1a2e;
+  --color-gray-100: #f8f9fa;
+  --color-gray-300: #dee2e6;
+  --color-gray-500: #6c757d;
+  --color-gray-700: #495057;
+  --color-gray-900: #212529;
+
+  /* Feedback */
+  --color-success: #28a745;
+  --color-error: #dc3545;
+
+  /* WhatsApp */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+
+  /* Typography */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing */
+  --section-padding: 5rem 1.5rem;
+  --container-max-width: 1140px;
+
+  /* Misc */
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
