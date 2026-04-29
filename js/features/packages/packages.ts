@@ -6,9 +6,10 @@ import { CONFIG } from '../../config/index.ts';
 /** @typedef {{ id: string, name: string, imageUrl: string }} PackageCard */
 
 const FALLBACK_IMAGES = {
-  basic: 'assets/images/package-basic.svg',
-  advanced: 'assets/images/package-advanced.svg',
-  premier: 'assets/images/package-premier.svg',
+  basic: new URL('../../../assets/images/package-basic.svg', import.meta.url).href,
+  advanced: new URL('../../../assets/images/package-advanced.svg', import.meta.url)
+    .href,
+  premier: new URL('../../../assets/images/package-premier.svg', import.meta.url).href,
 };
 
 /** @param {PackageCard} pkg */
