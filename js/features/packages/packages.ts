@@ -1,9 +1,14 @@
 // @ts-check
 
-import { fetchPackages } from '../../api/packages.ts';
-import { CONFIG } from '../../config/index.ts';
-
-/** @typedef {{ id: string, name: string, imageUrl: string }} PackageCard */
+/**
+ * @typedef {Object} PackageCard
+ * @property {string} id
+ * @property {string} name
+ * @property {string} price
+ * @property {string} duration
+ * @property {string} imageUrl
+ * @property {string[]} highlights
+ */
 
 const FALLBACK_IMAGES = {
   basic: new URL('../../../assets/images/package-basic.svg', import.meta.url).href,
@@ -17,6 +22,8 @@ function createPackageCard(pkg) {
   const anchor = document.createElement('a');
   anchor.href = '#contact';
   anchor.className = 'package-card';
+  anchor.dataset.tier = pkg.id;
+  anchor.setAttribute('aria-label', `Choose ${pkg.name} package`);
 
   const image = document.createElement('img');
   image.className = 'package-card__image';
@@ -27,16 +34,79 @@ function createPackageCard(pkg) {
     image.src = FALLBACK_IMAGES[pkg.id] || FALLBACK_IMAGES.basic;
   });
 
+  const content = document.createElement('div');
+  content.className = 'package-card__content';
+
+  const header = document.createElement('div');
+  header.className = 'package-card__header';
+
+  const meta = document.createElement('div');
+  meta.className = 'package-card__meta';
+
+  const badge = document.createElement('span');
+  badge.className = 'package-card__badge';
+  badge.textContent = `${pkg.name} Package`;
+
+  const name = document.createElement('h3');
+  name.className = 'package-card__title';
+  name.textContent = pkg.name;
+
+  const duration = document.createElement('p');
+  duration.className = 'package-card__duration';
+  duration.textContent = pkg.duration;
+
+  const price = document.createElement('p');
+  price.className = 'package-card__price';
+  price.textContent = pkg.price;
+
+  meta.append(badge, duration);
+  header.append(meta, name, price);
+
+  const list = document.createElement('ul');
+  list.className = 'package-card__features';
+  pkg.highlights.forEach((item) => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    list.appendChild(li);
+  });
+
+  const cta = document.createElement('span');
+  cta.className = 'package-card__cta';
+  cta.textContent = 'Book This Package';
+
+  content.append(header, list, cta);
   anchor.appendChild(image);
+  anchor.appendChild(content);
   return anchor;
 }
 
 /** @returns {PackageCard[]} */
 function getFallbackPackages() {
   return [
-    { id: 'basic', name: 'Basic', imageUrl: FALLBACK_IMAGES.basic },
-    { id: 'advanced', name: 'Advanced', imageUrl: FALLBACK_IMAGES.advanced },
-    { id: 'premier', name: 'Premier', imageUrl: FALLBACK_IMAGES.premier },
+    {
+      id: 'basic',
+      name: 'Basic',
+      price: '$399',
+      duration: '2 Hours',
+      imageUrl: FALLBACK_IMAGES.basic,
+      highlights: ['Unlimited sessions', 'Digital gallery', 'Standard backdrop'],
+    },
+    {
+      id: 'advanced',
+      name: 'Advanced',
+      price: '$599',
+      duration: '3 Hours',
+      imageUrl: FALLBACK_IMAGES.advanced,
+      highlights: ['Unlimited sessions', 'Instant prints', 'Premium props'],
+    },
+    {
+      id: 'premier',
+      name: 'Premier',
+      price: '$799',
+      duration: '4 Hours',
+      imageUrl: FALLBACK_IMAGES.premier,
+      highlights: ['Everything in Advanced', 'Custom overlay', 'On-site attendant'],
+    },
   ];
 }
 
@@ -54,22 +124,5 @@ export async function initPackages() {
   const container = document.getElementById('packages-grid');
   if (!container) return;
 
-  container.innerHTML = '<div class="packages__loading">Loading packages...</div>';
-
-  if (CONFIG.PACKAGES_API_URL.includes('YOUR_PACKAGES_SCRIPT_ID')) {
-    renderPackageCards(container, getFallbackPackages());
-    return;
-  }
-
-  try {
-    const data = await fetchPackages();
-    if (Array.isArray(data.packages) && data.packages.length > 0) {
-      renderPackageCards(container, /** @type {PackageCard[]} */ data.packages);
-    } else {
-      renderPackageCards(container, getFallbackPackages());
-    }
-  } catch (err) {
-    console.error('Failed to load packages:', err);
-    renderPackageCards(container, getFallbackPackages());
-  }
+  renderPackageCards(container, getFallbackPackages());
 }
